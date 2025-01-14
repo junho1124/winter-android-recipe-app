@@ -1,6 +1,7 @@
 package com.surivalcoding.composerecipeapp.presentation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
@@ -26,6 +27,7 @@ import com.surivalcoding.composerecipeapp.ui.AppTextStyles
 fun BigButton(
     modifier: Modifier = Modifier,
     text: String,
+    onClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -34,7 +36,10 @@ fun BigButton(
             .background(
                 color = AppColors.primary,
                 shape = RoundedCornerShape(10.dp),
-            ),
+            )
+            .clickable {
+                onClick()
+            },
         contentAlignment = Alignment.Center,
     ) {
         Row(
