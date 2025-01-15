@@ -1,5 +1,7 @@
 package com.surivalcoding.composerecipeapp.presentation.component
 
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,7 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +21,7 @@ import coil3.compose.AsyncImage
 import com.surivalcoding.composerecipeapp.model.Ingredient
 import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
+import com.surivalcoding.composerecipeapp.R
 
 private val IMAGE_SIZE = 52.dp
 private val SPACING = 15.dp
@@ -29,6 +35,7 @@ private val DEFAULT_IMAGE_MODIFIER =
     Modifier
         .size(IMAGE_SIZE)
         .background(AppColors.withe, RoundedCornerShape(IMAGE_ROUNDNESS))
+        .clip(RoundedCornerShape(IMAGE_ROUNDNESS))
 private val DEFAULT_CARD_MODIFIER = Modifier
     .background(AppColors.cardBackground, RoundedCornerShape(CARD_ROUNDNESS))
     .padding(vertical = CARD_VERTICAL_PADDING, horizontal = CARD_HORIZONTAL_PADDING)
@@ -49,7 +56,12 @@ fun IngredientItem(
             verticalAlignment = CenterVertically,
         ) {
             AsyncImage(
-                model = ingredient.imageUrl,
+                model = if(LocalInspectionMode.current) {
+                    ColorDrawable(AppColors.withe.toArgb())
+                } else {
+                    ingredient.imageUrl
+                },
+
                 contentDescription = ingredient.name,
                 contentScale = ContentScale.Crop,
                 modifier = DEFAULT_IMAGE_MODIFIER.then(imageModifier)
