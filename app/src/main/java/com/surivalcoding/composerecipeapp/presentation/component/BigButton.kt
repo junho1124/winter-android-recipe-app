@@ -28,43 +28,12 @@ fun BigButton(
     text: String,
     onClick: () -> Unit = {},
 ) {
-    Box(
-        modifier = modifier
-            .width(315.dp)
-            .height(60.dp)
-            .background(
-                color = AppColors.primary,
-                shape = RoundedCornerShape(10.dp),
-            )
-            .clickable {
-                onClick()
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Box(
-                modifier = Modifier
-                    .width(114.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                Text(
-                    text = text,
-                    style = AppTextStyles.normalTextBold.copy(
-                        color = Color.White,
-                    ),
-                )
-            }
-            Spacer(modifier = Modifier.width(11.dp))
-            Icon(
-                modifier = Modifier.size(20.dp),
-                imageVector = Icons.AutoMirrored.Default.ArrowForward,
-                contentDescription = null,
-                tint = Color.White,
-            )
-        }
-    }
+    AppButton(
+        modifier = modifier,
+        shape = ButtonShape.BIG,
+        text = text,
+        onClick = onClick
+    )
 }
 
 @Preview(showBackground = true)
