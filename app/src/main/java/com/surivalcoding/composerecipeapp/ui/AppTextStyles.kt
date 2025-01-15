@@ -24,5 +24,15 @@ object AppTextStyles {
         lineHeight = 24.sp,
         fontFamily = poppinsFamily,
     )
+    val kS14LH21 = TextStyle(
+        fontSize = 14.sp,
+        lineHeight = 21.sp,
+        fontFamily = poppinsFamily,
+    )
+    val kS8LH12 = TextStyle(
+        fontSize = 8.sp,
+        lineHeight = 12.sp,
+        fontFamily = poppinsFamily,
+    )
 
 }
