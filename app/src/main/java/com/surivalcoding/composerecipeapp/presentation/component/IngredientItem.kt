@@ -1,17 +1,7 @@
 package com.surivalcoding.composerecipeapp.presentation.component
 
-import android.icu.text.ListFormatter
-import android.text.style.LineHeightSpan
-import androidx.annotation.Px
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,50 +10,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.surivalcoding.composerecipeapp.model.Ingredient
 import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
 
+private val IMAGE_SIZE = 52.dp
+private val SPACING = 15.dp
+private val CARD_VERTICAL_PADDING = 12.dp
+private val CARD_HORIZONTAL_PADDING = 16.dp
+private val CARD_ROUNDNESS = 12.dp
+private val IMAGE_ROUNDNESS = 10.dp
+private val TITLE_TEXT_STYLE = AppTextStyles.kS16LH24.copy(fontWeight = FontWeight.W600)
+private val TRAILING_TEXT_STYLE = AppTextStyles.kS16LH24.copy(color = AppColors.textGrey)
+private val DEFAULT_IMAGE_MODIFIER =
+    Modifier
+        .size(IMAGE_SIZE)
+        .background(AppColors.withe, RoundedCornerShape(IMAGE_ROUNDNESS))
+private val DEFAULT_CARD_MODIFIER = Modifier
+    .background(AppColors.cardBackground, RoundedCornerShape(CARD_ROUNDNESS))
+    .padding(vertical = CARD_VERTICAL_PADDING, horizontal = CARD_HORIZONTAL_PADDING)
+    .fillMaxWidth()
+
 @Composable
-fun IngredientItem(modifier: Modifier = Modifier, ingredient: Ingredient) {
+fun IngredientItem(
+    modifier: Modifier = Modifier,
+    imageModifier: Modifier = DEFAULT_IMAGE_MODIFIER,
+    titleTextStyle: TextStyle = TITLE_TEXT_STYLE,
+    trailingTextStyle: TextStyle = TRAILING_TEXT_STYLE,
+    ingredient: Ingredient,
+) {
     Box(
-        modifier
-            .background(AppColors.cardBackground, RoundedCornerShape(12.dp))
-            .fillMaxWidth()
+        DEFAULT_CARD_MODIFIER.then(modifier)
     ) {
         Row(
-            modifier = modifier
-                .padding(vertical = 12.dp, horizontal = 16.dp),
             verticalAlignment = CenterVertically,
         ) {
             AsyncImage(
-                model = if (ingredient.imageUrl.isEmpty()) "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjiaCX1MjfEnom-gEbNT2IQZW1qlPbBnjDlCxyz7mqGn2u9VA_fPZ7mzX9cogw-kLKGvJl3WvTx5ZW5MEsYLrP3A" else ingredient.imageUrl,
-                contentDescription = "Image of ${ingredient.name}",
+                model = ingredient.imageUrl,
+                contentDescription = ingredient.name,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .width(52.dp)
-                    .height(52.dp)
-                    .background(AppColors.withe, RoundedCornerShape(10.dp))
+                modifier = DEFAULT_IMAGE_MODIFIER.then(imageModifier)
             )
-            Box(
-                modifier = Modifier.width(15.dp)
+            Spacer(
+                modifier = Modifier.width(SPACING),
             )
             Row(
-                modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = CenterVertically
             ) {
                 Text(
                     ingredient.name,
-                    modifier.weight(1f),
-                    style = AppTextStyles.kS16LH24.copy(fontWeight = FontWeight.W600)
+                    modifier = Modifier.weight(1f),
+                    style = titleTextStyle
                 )
-                Text("${ingredient.amount}g", style = AppTextStyles.kS16LH24.copy(color = AppColors.textGrey))
+                Text("${ingredient.amount}g", style = trailingTextStyle)
 
             }
         }
@@ -76,10 +79,6 @@ fun IngredientItem(modifier: Modifier = Modifier, ingredient: Ingredient) {
 @Composable
 private fun IngredientItemPreview() {
     IngredientItem(
-        ingredient = Ingredient(
-            name = "Tomatos",
-            amount = 500,
-            imageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjiaCX1MjfEnom-gEbNT2IQZW1qlPbBnjDlCxyz7mqGn2u9VA_fPZ7mzX9cogw-kLKGvJl3WvTx5ZW5MEsYLrP3A"
-        )
+        ingredient = Ingredient.default()
     )
 }
