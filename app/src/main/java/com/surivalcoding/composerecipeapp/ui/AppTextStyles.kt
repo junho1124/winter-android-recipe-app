@@ -18,4 +18,11 @@ object AppTextStyles {
         fontWeight = FontWeight.Bold,
         fontFamily = poppinsFamily,
     )
+
+    val kS16LH24 = TextStyle(
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        fontFamily = poppinsFamily,
+    )
+
 }
