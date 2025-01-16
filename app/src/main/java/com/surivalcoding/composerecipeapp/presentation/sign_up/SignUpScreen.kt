@@ -24,6 +24,7 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
+            .fillMaxHeight()
             .background(color = AppColors.white)
             .padding(horizontal = 30.dp, vertical = 10.dp)
     ) {

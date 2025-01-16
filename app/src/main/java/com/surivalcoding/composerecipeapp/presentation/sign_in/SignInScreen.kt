@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +28,8 @@ fun SignInScreen(modifier: Modifier = Modifier) {
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
                 .background(color = AppColors.white)
                 .padding(horizontal = 30.dp, vertical = 50.dp)
         ) {
@@ -35,7 +38,7 @@ fun SignInScreen(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(57.dp))
             TextInputField(label = "Email", hint = "Enter email", onValueChange = {})
             Spacer(modifier = Modifier.height(30.dp))
-            TextInputField(label = "Enter Password", hint = "Enter Password", onValueChange = {})
+            TextInputField(label = "Enter Password", hint = "Enter Password", visualTransformation = PasswordVisualTransformation(), onValueChange = {})
             Text(
                 "Forgot Password?",
                 style = AppTextStyles.smallerTextRegular.copy(color = AppColors.secondary100),
