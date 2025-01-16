@@ -11,4 +11,5 @@ object AppColors {
     val cardBackground = Color(0xFFD9D9D9)
 
     val textGrey = Color(0xFFA9A9A9)
+    val textBlack = Color(0xFF121212)
 }
