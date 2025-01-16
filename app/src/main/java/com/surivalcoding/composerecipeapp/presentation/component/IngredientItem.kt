@@ -29,15 +29,15 @@ private val CARD_VERTICAL_PADDING = 12.dp
 private val CARD_HORIZONTAL_PADDING = 16.dp
 private val CARD_ROUNDNESS = 12.dp
 private val IMAGE_ROUNDNESS = 10.dp
-private val TITLE_TEXT_STYLE = AppTextStyles.kS16LH24.copy(fontWeight = FontWeight.W600)
-private val TRAILING_TEXT_STYLE = AppTextStyles.kS16LH24.copy(color = AppColors.textGrey)
+private val TITLE_TEXT_STYLE = AppTextStyles.normalTextBold
+private val TRAILING_TEXT_STYLE = AppTextStyles.normalTextRegular.copy(color = AppColors.gray3)
 private val DEFAULT_IMAGE_MODIFIER =
     Modifier
         .size(IMAGE_SIZE)
-        .background(AppColors.withe, RoundedCornerShape(IMAGE_ROUNDNESS))
+        .background(AppColors.white, RoundedCornerShape(IMAGE_ROUNDNESS))
         .clip(RoundedCornerShape(IMAGE_ROUNDNESS))
 private val DEFAULT_CARD_MODIFIER = Modifier
-    .background(AppColors.cardBackground, RoundedCornerShape(CARD_ROUNDNESS))
+    .background(AppColors.gray4, RoundedCornerShape(CARD_ROUNDNESS))
     .padding(vertical = CARD_VERTICAL_PADDING, horizontal = CARD_HORIZONTAL_PADDING)
     .fillMaxWidth()
 
@@ -57,7 +57,7 @@ fun IngredientItem(
         ) {
             AsyncImage(
                 model = if(LocalInspectionMode.current) {
-                    ColorDrawable(AppColors.withe.toArgb())
+                    ColorDrawable(AppColors.white.toArgb())
                 } else {
                     ingredient.imageUrl
                 },

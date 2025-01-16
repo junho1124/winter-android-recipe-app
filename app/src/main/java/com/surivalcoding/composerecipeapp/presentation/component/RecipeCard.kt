@@ -40,7 +40,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
     ) {
         AsyncImage(
             model = if (LocalInspectionMode.current) {
-                ColorDrawable(AppColors.cardBackground.toArgb())
+                ColorDrawable(AppColors.gray4.toArgb())
             } else recipe.thumbnailImageUrl,
             contentDescription = recipe.name,
             contentScale = ContentScale.Crop,
@@ -55,7 +55,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                     .padding(vertical = 2.dp, horizontal = 7.dp)
                     .align(Alignment.End)
                     .background(
-                        color = AppColors.orangeSub,
+                        color = AppColors.secondary20,
                         shape = RoundedCornerShape(20.dp)
                     ),
             ) {
@@ -66,7 +66,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = null,
-                        tint = AppColors.orange,
+                        tint = AppColors.rating,
                         modifier = Modifier
                             .width(7.5.dp)
                             .height(7.dp)
@@ -77,7 +77,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                     )
                     Text(
                         text = recipe.rate.toString(),
-                        style = AppTextStyles.kS8LH12,
+                        style = AppTextStyles.smallerTextRegular,
                     )
                 }
             }
@@ -95,11 +95,11 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                 ) {
                     Text(
                         text = recipe.name + recipe.name,
-                        style = AppTextStyles.kS14LH21.copy(color = AppColors.withe, fontWeight = FontWeight.W600),
+                        style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
                     )
                     Text(
                         text = "By ${recipe.authorName}",
-                        style = AppTextStyles.kS8LH12.copy(color = AppColors.textGrey)
+                        style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4)
                     )
                 }
                 Row(
@@ -116,7 +116,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                             /// timer icon
                             imageVector = Icons.Default.Face,
                             contentDescription = null,
-                            tint = AppColors.withe,
+                            tint = AppColors.white,
                             modifier = Modifier
                                 .size(17.dp)
 
@@ -127,10 +127,8 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                         )
                         Text(
                             text = "${recipe.timeTaken} min",
-                            style = AppTextStyles.kS8LH12.copy(
-                                color = AppColors.withe,
-                                fontSize = 11.sp,
-                                lineHeight = 16.5.sp
+                            style = AppTextStyles.smallerTextRegular.copy(
+                                color = AppColors.white,
                             )
                         )
                         Box(
@@ -142,7 +140,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                             modifier = Modifier
                                 .size(24.dp)
                                 .background(
-                                    color = AppColors.withe,
+                                    color = AppColors.white,
                                     shape = CircleShape
                                 )
                                 .padding(horizontal = 5.dp),
@@ -150,7 +148,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                                 Icon(
                                     imageVector = Icons.Default.FavoriteBorder,
                                     contentDescription = null,
-                                    tint = AppColors.primarySub,
+                                    tint = AppColors.primary80,
                                     modifier = Modifier
                                         .size(17.dp),
                                 )

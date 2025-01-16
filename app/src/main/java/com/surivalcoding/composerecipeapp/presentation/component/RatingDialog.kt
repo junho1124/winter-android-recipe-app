@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarRate
+import androidx.compose.material.icons.outlined.Face
 import androidx.compose.material.icons.outlined.Star
+import androidx.compose.material.icons.outlined.StarOutline
+import androidx.compose.material.icons.outlined.StarRate
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -50,14 +54,14 @@ fun RatingDialog(
                 .padding(DIALOG_PADDING)
                 .shadow(DIALOG_SHADOW_ELEVATION, RoundedCornerShape(DIALOG_CORNER_RADIUS))
                 .clip(RoundedCornerShape(DIALOG_CORNER_RADIUS))
-                .background(AppColors.withe)
+                .background(AppColors.white)
                 .padding(horizontal = DIALOG_PADDING, vertical = 10.dp)
         ) {
             // 제목
             Text(
                 "Rate recipe",
-                style = AppTextStyles.smallButtonText.copy(
-                    color = AppColors.textBlack,
+                style = AppTextStyles.smallTextRegular.copy(
+                    color = AppColors.labelColor,
                     fontWeight = FontWeight.W400
                 )
             )
@@ -65,7 +69,9 @@ fun RatingDialog(
             Spacer(modifier = Modifier.height(8.dp))
 
             // 별점 선택 Row
-            StarRatingRow(rate = rate, onRateChange = { rate = it })
+            StarRatingRow(rate = rate, onRateChange = {
+                rate = it
+            })
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -73,7 +79,13 @@ fun RatingDialog(
             Box(
                 modifier = Modifier
                     .size(BUTTON_SIZE.first, BUTTON_SIZE.second)
-                    .background(AppColors.cardBackground, RoundedCornerShape(BUTTON_CORNER_RADIUS))
+                    .background(
+                        if (rate != 0) {
+                            AppColors.primary100
+                        } else {
+                            AppColors.gray4
+                        }, RoundedCornerShape(BUTTON_CORNER_RADIUS)
+                    )
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onPress = {
@@ -86,8 +98,8 @@ fun RatingDialog(
             ) {
                 Text(
                     text = "Send",
-                    style = AppTextStyles.kS8LH12.copy(
-                        color = AppColors.withe,
+                    style = AppTextStyles.smallLabelRegular.copy(
+                        color = AppColors.white,
                         fontWeight = FontWeight.W400,
                         textAlign = TextAlign.Center
                     )
@@ -102,7 +114,7 @@ fun StarRatingRow(rate: Int, onRateChange: (Int) -> Unit) {
     Row(
         horizontalArrangement = Arrangement.Center
     ) {
-        (0..4).forEach { i ->
+        (1..5).forEach { i ->
             Box(
                 modifier = Modifier
                     .padding(STAR_PADDING)
@@ -111,9 +123,9 @@ fun StarRatingRow(rate: Int, onRateChange: (Int) -> Unit) {
                     }
             ) {
                 Icon(
-                    imageVector = if (i <= rate) Icons.Filled.Star else Icons.Outlined.Star,
+                    imageVector = if (i <= rate) Icons.Default.Star else Icons.Outlined.StarOutline,
                     contentDescription = null,
-                    tint = AppColors.orange,
+                    tint = AppColors.rating,
                     modifier = Modifier.size(STAR_SIZE)
                 )
             }

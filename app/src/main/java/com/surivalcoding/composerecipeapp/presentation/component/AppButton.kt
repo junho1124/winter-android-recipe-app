@@ -42,9 +42,9 @@ fun AppButton(modifier: Modifier = Modifier, shape: ButtonShape, text: String, o
     val defaultModifier = Modifier
         .background(
             color = if (isPressed) {
-                AppColors.cardBackground
+                AppColors.gray4
             } else {
-                AppColors.primary
+                AppColors.primary100
             },
             shape = RoundedCornerShape(10.dp)
         )
@@ -74,10 +74,10 @@ fun AppButton(modifier: Modifier = Modifier, shape: ButtonShape, text: String, o
 
     val textStyle = when(shape) {
         ButtonShape.BIG, ButtonShape.MEDIUM -> {
-            AppTextStyles.kS16LH24.copy(fontWeight = FontWeight.W600, color = AppColors.withe)
+            AppTextStyles.normalTextBold.copy(fontWeight = FontWeight.W600, color = AppColors.white)
         }
         ButtonShape.SMALL -> {
-            AppTextStyles.smallButtonText.copy(color = AppColors.withe, fontWeight = FontWeight.W600)
+            AppTextStyles.smallTextBold.copy(color = AppColors.white, fontWeight = FontWeight.W600)
         }
     }
     Box(
@@ -106,7 +106,7 @@ fun AppButton(modifier: Modifier = Modifier, shape: ButtonShape, text: String, o
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = null,
-                    tint = AppColors.withe,
+                    tint = AppColors.white,
                     modifier = Modifier.size(20.dp)
                 )
             }

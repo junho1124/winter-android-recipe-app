@@ -37,23 +37,23 @@ fun FilterButton(modifier: Modifier = Modifier, buttonText: String, icon: ImageV
             .padding(vertical = 5.dp, horizontal = 10.dp)
             .background(
                 color = if (isSelect) {
-                    AppColors.primary
-                } else AppColors.withe,
+                    AppColors.primary100
+                } else AppColors.white,
                 shape = RoundedCornerShape(10.dp)
             )
             .border(
                 width = 1.dp,
-                color = AppColors.primary,
+                color = AppColors.primary100,
                 shape = RoundedCornerShape(10.dp)
             ),
     ) {
         Text(
             buttonText,
             modifier = modifier,
-            style = AppTextStyles.kS16LH24.copy(
+            style = AppTextStyles.smallerTextRegular.copy(
                 color = if (isSelect) {
-                    AppColors.withe
-                } else AppColors.primary
+                    AppColors.white
+                } else AppColors.primary100
             )
         )
         if(icon != null) {
@@ -64,8 +64,8 @@ fun FilterButton(modifier: Modifier = Modifier, buttonText: String, icon: ImageV
                 imageVector = icon,
                 contentDescription = null,
                 tint = if (isSelect) {
-                    AppColors.withe
-                } else AppColors.primary,
+                    AppColors.white
+                } else AppColors.primary100,
                 modifier = Modifier.size(18.dp)
             )
         }
