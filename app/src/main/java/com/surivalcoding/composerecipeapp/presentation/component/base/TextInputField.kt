@@ -25,9 +25,9 @@ import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
 
 @Composable
-fun TextInputField(modifier: Modifier = Modifier, label: String, hint: String, visualTransformation: VisualTransformation? = null, onValueChange: (String) -> Unit = {}) {
-    var value by remember { mutableStateOf("") }
-    Column {
+fun TextInputField(modifier: Modifier = Modifier, label: String, hint: String, initialValue: String = "", visualTransformation: VisualTransformation? = null, onValueChange: (String) -> Unit = {}) {
+    var value by remember { mutableStateOf(initialValue) }
+    Column(modifier) {
         Text(label, style = AppTextStyles.smallTextRegular)
         Spacer(modifier = Modifier.height(5.dp))
         TextField(
