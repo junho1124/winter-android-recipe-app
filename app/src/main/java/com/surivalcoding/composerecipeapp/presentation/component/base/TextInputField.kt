@@ -11,21 +11,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
 
 @Composable
 fun TextInputField(modifier: Modifier = Modifier, label: String, hint: String, visualTransformation: VisualTransformation? = null, onValueChange: (String) -> Unit = {}) {
+    var value by remember { mutableStateOf("") }
     Column {
         Text(label, style = AppTextStyles.smallTextRegular)
         Spacer(modifier = Modifier.height(5.dp))
         TextField(
-            value = "",
-            onValueChange = onValueChange,
+            value = value,
+            onValueChange = {
+                value = it
+                onValueChange(it)
+            },
             placeholder = { Text(hint, style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4)) },
             colors = TextFieldDefaults.colors(
                 disabledContainerColor = AppColors.white,
@@ -39,4 +49,24 @@ fun TextInputField(modifier: Modifier = Modifier, label: String, hint: String, v
                 .border(1.5.dp, AppColors.gray4, RoundedCornerShape(10.dp))
         )
     }
+}
+
+@Preview
+@Composable
+private fun TextInputFieldPreview() {
+    Column {
+        TextInputField(
+            label = "Name",
+            hint = "Enter Name",
+            onValueChange = {}
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+        TextInputField(
+            label = "Password",
+            hint = "Enter Password",
+            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = {}
+        )
+    }
+
 }
