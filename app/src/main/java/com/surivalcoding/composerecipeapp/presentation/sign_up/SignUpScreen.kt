@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -30,47 +31,61 @@ fun SignUpScreen(modifier: Modifier = Modifier) {
     ) {
         Text("Create an account", style = AppTextStyles.largeTextBold)
         Spacer(modifier = Modifier.height(5.dp))
-        Text("Let’s help you set up your account, \nit won’t take long.", style = AppTextStyles.smallerTextRegular)
+        Text(
+            "Let’s help you set up your account, \nit won’t take long.",
+            style = AppTextStyles.smallerTextRegular
+        )
         Spacer(modifier = Modifier.height(20.dp))
         TextInputField(label = "Name", hint = "Enter Name", onValueChange = {})
         Spacer(modifier = Modifier.height(20.dp))
-        TextInputField(label = "Email", hint = "Enter Email", onValueChange = {})
+        TextInputField(
+            label = "Email",
+            hint = "Enter Email",
+            onValueChange = {})
         Spacer(modifier = Modifier.height(20.dp))
-        TextInputField(label = "Password", hint = "Enter Password", visualTransformation = PasswordVisualTransformation(), onValueChange = {})
+        TextInputField(
+            label = "Password",
+            hint = "Enter Password",
+            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = {})
         Spacer(modifier = Modifier.height(20.dp))
-        TextInputField(label = "Confirm Password", hint = "Retype Password", visualTransformation = PasswordVisualTransformation(), onValueChange = {})
+        TextInputField(
+            label = "Confirm Password",
+            hint = "Retype Password",
+            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = {})
         CheckableText(
             text = "Accept terms & Condition",
-            onChanged = {}
+            onChanged = {},
         )
-        BigButton(text = "Sign Up", onClick = {})
+        BigButton(
+            text = "Sign Up",
+            onClick = {},
+        )
         Spacer(modifier = Modifier.height(14.dp))
         OrSignInWith(
             onClickFacebook = {},
-            onClickGoogle = {}
+            onClickGoogle = {},
         )
         Spacer(modifier = Modifier.height(20.dp))
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                buildAnnotatedString {
-                    append("Already a member? ")
-                    withStyle(
-                        style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100).toSpanStyle()
-                    ) {
-                        append("Sign In")
-                    }
-                },
-                style = AppTextStyles.smallerTextBold,
-                modifier = Modifier.clickable(onClick = {})
-            )
+        Text(
+            buildAnnotatedString {
+                append("Already a member? ")
+                withStyle(
+                    style = AppTextStyles.smallerTextBold.copy(color = AppColors.secondary100)
+                        .toSpanStyle()
+                ) {
+                    append("Sign In")
+                }
+            },
+            style = AppTextStyles.smallerTextBold,
+            modifier = Modifier
+                .clickable(onClick = {})
+                .align(Alignment.CenterHorizontally)
+        )
 
-        }
     }
 }
-
 
 
 @Preview

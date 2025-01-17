@@ -16,6 +16,7 @@ import com.surivalcoding.composerecipeapp.ui.AppColors
 fun ShadowBox(modifier: Modifier = Modifier, onClick: () -> Unit = {}, content: @Composable () -> Unit) {
     Box(
         modifier = Modifier
+            .clickable(onClick = onClick)
             .shadow(
                 elevation = 5.dp, // Blur에 해당
                 shape = RoundedCornerShape(8.dp), // 모서리가 둥근 경우
@@ -26,8 +27,7 @@ fun ShadowBox(modifier: Modifier = Modifier, onClick: () -> Unit = {}, content: 
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(3.dp)
-            .then(modifier)
-            .clickable(onClick = onClick),
+            .then(modifier),
         contentAlignment = Alignment.Center
     ) {
         content()
