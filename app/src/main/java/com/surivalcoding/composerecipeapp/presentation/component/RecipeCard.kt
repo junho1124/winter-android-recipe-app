@@ -2,13 +2,14 @@ package com.surivalcoding.composerecipeapp.presentation.component
 
 import android.graphics.drawable.ColorDrawable
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.outlined.BookmarkBorder
+import androidx.compose.material.icons.outlined.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -16,13 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.surivalcoding.composerecipeapp.model.Recipe
 import com.surivalcoding.composerecipeapp.ui.AppColors
@@ -32,18 +33,36 @@ private const val CARD_ASPECT_RATIO = 2.1f
 private val CARD_ROUNDNESS = 10.dp
 
 @Composable
-fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
+fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit, onBookmark: () -> Unit) {
     Box(
         modifier = modifier
             .aspectRatio(CARD_ASPECT_RATIO)
             .clip(RoundedCornerShape(CARD_ROUNDNESS))
+            .clickable(
+                onClick = onClick
+            )
     ) {
         AsyncImage(
             model = if (LocalInspectionMode.current) {
                 ColorDrawable(AppColors.gray4.toArgb())
-            } else recipe.thumbnailImageUrl,
+            } else recipe.image,
             contentDescription = recipe.name,
             contentScale = ContentScale.Crop,
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(
+                            AppColors.transparent,
+                            AppColors.black,
+                        ),
+                        start = Offset(0.5f, 0f),
+                        end = Offset(0.5f, 1000f)
+                    ),
+                    shape = RoundedCornerShape(CARD_ROUNDNESS)
+                )
         )
         Column(
             modifier = Modifier
@@ -60,24 +79,28 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                     ),
             ) {
                 Row(
+                    modifier = Modifier.padding(
+                        vertical = 4.dp,
+                        horizontal = 7.dp
+                    ),
                     verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(vertical = 4.dp, horizontal = 7.dp),
+                    horizontalArrangement = Arrangement.Center,
                 ) {
                     Icon(
                         imageVector = Icons.Default.Star,
                         contentDescription = null,
                         tint = AppColors.rating,
                         modifier = Modifier
-                            .width(7.5.dp)
-                            .height(7.dp)
+                            .width(8.dp)
+                            .height(8.dp)
                     )
-                    Box(
+                    Spacer(
                         modifier = Modifier
                             .width(3.dp)
                     )
                     Text(
-                        text = recipe.rate.toString(),
-                        style = AppTextStyles.smallerTextRegular,
+                        text = recipe.rating.toString(),
+                        style = AppTextStyles.smallLabelRegular,
                     )
                 }
             }
@@ -98,7 +121,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                         style = AppTextStyles.smallTextBold.copy(color = AppColors.white),
                     )
                     Text(
-                        text = "By ${recipe.authorName}",
+                        text = "By ${recipe.chef}",
                         style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4)
                     )
                 }
@@ -107,16 +130,16 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                         .fillMaxHeight(),
                     verticalAlignment = Alignment.Bottom,
                     horizontalArrangement = Arrangement.End
-                    ) {
+                ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
 
                         Icon(
                             /// timer icon
-                            imageVector = Icons.Default.Face,
+                            imageVector = Icons.Outlined.Timer,
                             contentDescription = null,
-                            tint = AppColors.white,
+                            tint = AppColors.gray4,
                             modifier = Modifier
                                 .size(17.dp)
 
@@ -126,9 +149,9 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                                 .width(5.dp)
                         )
                         Text(
-                            text = "${recipe.timeTaken} min",
+                            text = "${recipe.time} min",
                             style = AppTextStyles.smallerTextRegular.copy(
-                                color = AppColors.white,
+                                color = AppColors.gray4,
                             )
                         )
                         Box(
@@ -136,7 +159,7 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                                 .width(10.dp)
                         )
                         IconButton(
-                            onClick = { /*TODO*/ },
+                            onClick = onBookmark,
                             modifier = Modifier
                                 .size(24.dp)
                                 .background(
@@ -145,13 +168,13 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
                                 )
                                 .padding(horizontal = 5.dp),
                         ) {
-                                Icon(
-                                    imageVector = Icons.Default.FavoriteBorder,
-                                    contentDescription = null,
-                                    tint = AppColors.primary80,
-                                    modifier = Modifier
-                                        .size(17.dp),
-                                )
+                            Icon(
+                                imageVector = Icons.Outlined.BookmarkBorder,
+                                contentDescription = null,
+                                tint = AppColors.primary80,
+                                modifier = Modifier
+                                    .size(17.dp),
+                            )
                         }
                     }
                 }
@@ -164,6 +187,8 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe) {
 @Composable
 private fun RecipeCardPreview() {
     RecipeCard(
-        recipe = Recipe.default()
+        recipe = Recipe.default(),
+        onClick = {},
+        onBookmark = {}
     )
 }
