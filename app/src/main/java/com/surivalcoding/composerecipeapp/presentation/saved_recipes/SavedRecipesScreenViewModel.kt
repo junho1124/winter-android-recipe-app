@@ -6,26 +6,46 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import coil3.Extras
 import com.surivalcoding.composerecipeapp.AppApplication
+import com.surivalcoding.composerecipeapp.core.ViewModelable
 import com.surivalcoding.composerecipeapp.model.Recipe
 import com.surivalcoding.composerecipeapp.repository.RecipeRepository
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.surivalcoding.composerecipeapp.core.model.Result
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SavedRecipesScreenViewModel(
     private val recipeRepository: RecipeRepository
-): ViewModel() {
-    private val _savedRecipes: MutableStateFlow<List<Recipe>> = MutableStateFlow(recipeRepository.getSavedRecipes())
-    val savedRecipes: StateFlow<List<Recipe>> = _savedRecipes.asStateFlow()
+): ViewModelable<SavedRecipesScreenState>(SavedRecipesScreenState.initialState()) {
+
+    init {
+        viewModelScope.launch {
+            delay(1000)
+            val result = recipeRepository.getSavedRecipes()
+            when(result) {
+                is Result.Success -> {
+                    updateState(state.value.copy(recipes = result.data, isLoading = false))
+                }
+                is Result.Error -> {
+                    gotFailure(result.error)
+                }
+            }
+        }
+    }
 
     fun onBookmark(recipe: Recipe) {
-        recipeRepository.bookmarkRecipe(recipe.id)
-        viewModelScope.launch {
-            _savedRecipes.emit(recipeRepository.getSavedRecipes())
+        val result = recipeRepository.bookmarkRecipe(recipe.id)
+
+        when(result) {
+            is Result.Success -> {
+                updateState(state.value.copy(recipes = state.value.recipes - recipe))
+            }
+            is Result.Error -> {
+                gotFailure(result.error)
+            }
         }
+
+
     }
 
     fun onRecipeClicked(recipe: Recipe) {
