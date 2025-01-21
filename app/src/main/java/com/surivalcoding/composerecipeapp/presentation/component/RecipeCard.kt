@@ -30,20 +30,30 @@ import com.surivalcoding.composerecipeapp.model.Recipe
 import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
 
-private const val CARD_ASPECT_RATIO = 2.1f
+private const val CARD_ASPECT_RATIO_RECTANGLE = 2.1f
+private const val CARD_ASPECT_RATIO_SQUARE = 1f
 private val CARD_ROUNDNESS = 10.dp
+
+enum class RecipeShape {
+    SQUARE, RECTANGLE
+}
 
 @Composable
 fun RecipeCard(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    cardShape: RecipeShape = RecipeShape.RECTANGLE,
     onClick: () -> Unit,
     onBookmark: () -> Unit,
     isBookmarked: Boolean = false
 ) {
+    val aspectRatio = when (cardShape) {
+        RecipeShape.RECTANGLE -> CARD_ASPECT_RATIO_RECTANGLE
+        RecipeShape.SQUARE -> CARD_ASPECT_RATIO_SQUARE
+    }
     Box(
         modifier = modifier
-            .aspectRatio(CARD_ASPECT_RATIO)
+            .aspectRatio(aspectRatio)
             .clip(RoundedCornerShape(CARD_ROUNDNESS))
             .clickable(
                 onClick = onClick
@@ -132,7 +142,7 @@ fun RecipeCard(
                         style = AppTextStyles.smallerTextRegular.copy(color = AppColors.gray4)
                     )
                 }
-                Row(
+                if(cardShape == RecipeShape.RECTANGLE) Row(
                     modifier = Modifier
                         .fillMaxHeight(),
                     verticalAlignment = Alignment.Bottom,
@@ -198,12 +208,25 @@ fun RecipeCard(
 @Composable
 private fun RecipeCardPreview() {
     var isBookmarked = true
-    RecipeCard(
-        recipe = Recipe.default(),
-        onClick = {},
-        onBookmark = {
-            isBookmarked = !isBookmarked
-        },
-        isBookmarked = isBookmarked
-    )
+    Column {
+
+        RecipeCard(
+            recipe = Recipe.default(),
+            onClick = {},
+            onBookmark = {
+                isBookmarked = !isBookmarked
+            },
+            isBookmarked = isBookmarked
+        )
+
+        RecipeCard(
+            recipe = Recipe.default(),
+            onClick = {},
+            cardShape = RecipeShape.SQUARE,
+            onBookmark = {
+                isBookmarked = !isBookmarked
+            },
+            isBookmarked = isBookmarked
+        )
+    }
 }
