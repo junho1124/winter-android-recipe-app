@@ -44,7 +44,7 @@ fun RecipeCard(
     recipe: Recipe,
     cardShape: RecipeShape = RecipeShape.RECTANGLE,
     onClick: () -> Unit,
-    onBookmark: () -> Unit,
+    onBookmark: (Int) -> Unit,
     isBookmarked: Boolean = false
 ) {
     val aspectRatio = when (cardShape) {
@@ -176,7 +176,7 @@ fun RecipeCard(
                                 .width(10.dp)
                         )
                         IconButton(
-                            onClick = onBookmark,
+                            onClick = { onBookmark(recipe.id) },
                             modifier = Modifier
                                 .size(24.dp)
                                 .background(

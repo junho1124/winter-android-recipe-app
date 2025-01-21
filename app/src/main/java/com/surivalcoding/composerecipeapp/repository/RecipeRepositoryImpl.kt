@@ -22,6 +22,15 @@ class RecipeRepositoryImpl(
         }
     }
 
+    override fun searchRecipes(query: String): Result<List<Recipe>, Exception> {
+        try {
+            val recipes = recipeDataSource.getRecipes().filter { it.name?.contains(query, ignoreCase = true) ?: false }
+            return Result.Success(recipes.map { it.toModel() })
+        } catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
     override fun bookmarkRecipe(recipeId: Int): Result<Boolean, Exception> {
         try {
             if(bookmarkDataSource.isRecipeSaved(recipeId)) {
