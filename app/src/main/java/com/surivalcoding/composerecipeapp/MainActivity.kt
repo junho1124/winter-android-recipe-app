@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.surivalcoding.composerecipeapp.presentation.saved_recipes.SavedRecipesScreen
 import com.surivalcoding.composerecipeapp.presentation.saved_recipes.SavedRecipesScreenViewModel
 import com.surivalcoding.composerecipeapp.ui.theme.ComposeRecipeAppTheme
@@ -25,12 +25,12 @@ class MainActivity : ComponentActivity() {
             val savedRecipesScreenViewModel: SavedRecipesScreenViewModel by viewModels {
                 SavedRecipesScreenViewModel.Factory
             }
-            val savedRecipes = savedRecipesScreenViewModel.savedRecipes.collectAsState().value
+            val state = savedRecipesScreenViewModel.state.collectAsStateWithLifecycle().value
             ComposeRecipeAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SavedRecipesScreen(
                         modifier = Modifier.padding(innerPadding),
-                        recipes = savedRecipes,
+                        state = state,
                         onClickRecipe = savedRecipesScreenViewModel::onRecipeClicked,
                         onBookmark = savedRecipesScreenViewModel::onBookmark
                     )
@@ -51,7 +51,5 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ComposeRecipeAppTheme {
-        Greeting("Android")
-    }
+    MainActivity()
 }
