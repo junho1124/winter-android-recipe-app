@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.Timer
@@ -33,7 +34,13 @@ private const val CARD_ASPECT_RATIO = 2.1f
 private val CARD_ROUNDNESS = 10.dp
 
 @Composable
-fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Unit, onBookmark: () -> Unit) {
+fun RecipeCard(
+    modifier: Modifier = Modifier,
+    recipe: Recipe,
+    onClick: () -> Unit,
+    onBookmark: () -> Unit,
+    isBookmarked: Boolean = false
+) {
     Box(
         modifier = modifier
             .aspectRatio(CARD_ASPECT_RATIO)
@@ -169,7 +176,11 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Uni
                                 .padding(horizontal = 5.dp),
                         ) {
                             Icon(
-                                imageVector = Icons.Outlined.BookmarkBorder,
+                                imageVector = if (isBookmarked) {
+                                    Icons.Default.Bookmark
+                                } else {
+                                    Icons.Outlined.BookmarkBorder
+                                },
                                 contentDescription = null,
                                 tint = AppColors.primary80,
                                 modifier = Modifier
@@ -186,9 +197,13 @@ fun RecipeCard(modifier: Modifier = Modifier, recipe: Recipe, onClick: () -> Uni
 @Preview(showBackground = true)
 @Composable
 private fun RecipeCardPreview() {
+    var isBookmarked = true
     RecipeCard(
         recipe = Recipe.default(),
         onClick = {},
-        onBookmark = {}
+        onBookmark = {
+            isBookmarked = !isBookmarked
+        },
+        isBookmarked = isBookmarked
     )
 }
