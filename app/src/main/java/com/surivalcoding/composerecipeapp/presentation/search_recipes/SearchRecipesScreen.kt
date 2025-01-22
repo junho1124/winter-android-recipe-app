@@ -135,7 +135,6 @@ fun SearchRecipesScreen(
                     onClick = { onRecipeClicked(recipe.id) },
                     isBookmarked = state.bookmarkRecipeIds.contains(recipe.id),
                     cardShape = RecipeShape.SQUARE,
-                    onBookmark = onBookmark,
                 )
             }
         }

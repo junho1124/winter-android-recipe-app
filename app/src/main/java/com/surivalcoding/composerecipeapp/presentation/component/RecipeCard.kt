@@ -44,7 +44,7 @@ fun RecipeCard(
     recipe: Recipe,
     cardShape: RecipeShape = RecipeShape.RECTANGLE,
     onClick: () -> Unit,
-    onBookmark: (Int) -> Unit,
+    onBookmark: (Int) -> Unit = {},
     isBookmarked: Boolean = false
 ) {
     val aspectRatio = when (cardShape) {
