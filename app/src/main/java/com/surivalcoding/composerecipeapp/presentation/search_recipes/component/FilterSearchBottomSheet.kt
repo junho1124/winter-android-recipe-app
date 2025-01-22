@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.surivalcoding.composerecipeapp.presentation.component.FilterButton
+import com.surivalcoding.composerecipeapp.presentation.component.SmallButton
 import com.surivalcoding.composerecipeapp.presentation.search_recipes.SearchFilter
 import com.surivalcoding.composerecipeapp.presentation.search_recipes.TimeFilter
 import com.surivalcoding.composerecipeapp.ui.AppColors
@@ -37,6 +38,7 @@ fun FilterSearchBottomSheet(
     onCategoryFilterChange: (String) -> Unit,
     onRateFilterChange: (Int) -> Unit,
     onDismissRequest: () -> Unit = {},
+    onConfirm: () -> Unit = {},
 ) {
     ModalBottomSheet(
         modifier = modifier
@@ -78,9 +80,13 @@ fun FilterSearchBottomSheet(
                     categories.first()
                 }
             )
+            Spacer(modifier = Modifier.height(30.dp))
+            SmallButton(
+                text = "Filter",
+                onClick = onConfirm
+            )
         }
     }
-
 }
 
 @OptIn(ExperimentalLayoutApi::class)

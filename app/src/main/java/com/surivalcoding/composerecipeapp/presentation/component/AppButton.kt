@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -93,7 +91,11 @@ fun AppButton(modifier: Modifier = Modifier, shape: ButtonShape, text: String, o
             Text(
                 text = text,
                 style = textStyle,
-                modifier = Modifier.width(114.dp)
+                modifier = if (shape != ButtonShape.SMALL) {
+                    Modifier.width(114.dp)
+                } else {
+                    Modifier
+                }
             )
             if(shape != ButtonShape.SMALL) {
                 Box(
