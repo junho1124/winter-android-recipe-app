@@ -79,6 +79,10 @@ class SearchRecipesScreenViewModel(
                 event,
                 this
             )
+
+            is SearchRecipesScreenEvent.ToggleFilterBottomSheet -> {
+                updateState(state.value.copy(showBottomSheet = true))
+            }
         }
     }
 

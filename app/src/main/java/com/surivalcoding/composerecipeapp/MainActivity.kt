@@ -25,9 +25,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeRecipeAppTheme {
-                Scaffold(modifier = Modifier.background(color = AppColors.white).fillMaxSize()) { innerPadding ->
-                    val viewModel = get<SearchRecipesScreenViewModel>()
-                    val state by viewModel.state.collectAsStateWithLifecycle()
+                val viewModel = get<SearchRecipesScreenViewModel>()
+                val state by viewModel.state.collectAsStateWithLifecycle()
+                Scaffold(modifier = Modifier
+                    .background(color = AppColors.white)
+                    .fillMaxSize()) { innerPadding ->
                     SearchRecipesScreen(
                         modifier = Modifier.padding(innerPadding),
                         state = state,
@@ -37,10 +39,12 @@ class MainActivity : ComponentActivity() {
                         onRecipeClicked = {
                             viewModel.onEvent(SearchRecipesScreenEvent.NavigateToRecipeDetail(it))
                         },
-                        onBookmark = {
-                            viewModel.onEvent(SearchRecipesScreenEvent.BookmarkRecipe(it))
+                        onFilterIconClicked = {
+                            viewModel.onEvent(SearchRecipesScreenEvent.ToggleFilterBottomSheet)
                         },
-                        onFilterIconClicked = {},
+                        onDismissBottomSheet = {
+//                            viewModel.onEvent(SearchRecipesScreenEvent.ToggleFilterBottomSheet)
+                        }
                     )
                 }
             }
