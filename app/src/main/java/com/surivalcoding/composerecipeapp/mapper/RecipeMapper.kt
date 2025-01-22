@@ -1,7 +1,7 @@
 package com.surivalcoding.composerecipeapp.mapper
 
-import com.surivalcoding.composerecipeapp.dto.RecipeDto
-import com.surivalcoding.composerecipeapp.model.Recipe
+import com.surivalcoding.composerecipeapp.data.dto.RecipeDto
+import com.surivalcoding.composerecipeapp.domain.model.Recipe
 
 fun RecipeDto.toModel(): Recipe {
     return Recipe(

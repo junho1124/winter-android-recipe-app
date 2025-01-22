@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -16,15 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.surivalcoding.composerecipeapp.data_source.local.MockBookmarkDataSourceImpl
-import com.surivalcoding.composerecipeapp.data_source.remote.MockRecipeDataSourceImpl
-import com.surivalcoding.composerecipeapp.model.Recipe
+import com.surivalcoding.composerecipeapp.data.data_source.local.MockBookmarkDataSourceImpl
+import com.surivalcoding.composerecipeapp.data.data_source.remote.MockRecipeDataSourceImpl
+import com.surivalcoding.composerecipeapp.domain.model.Recipe
 import com.surivalcoding.composerecipeapp.presentation.component.RecipeCard
-import com.surivalcoding.composerecipeapp.repository.RecipeRepository
-import com.surivalcoding.composerecipeapp.repository.RecipeRepositoryImpl
+import com.surivalcoding.composerecipeapp.data.repository.RecipeRepositoryImpl
 import com.surivalcoding.composerecipeapp.ui.AppColors
 import com.surivalcoding.composerecipeapp.ui.AppTextStyles
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun SavedRecipesScreen(

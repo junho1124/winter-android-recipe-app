@@ -1,4 +1,4 @@
-package com.surivalcoding.composerecipeapp.model
+package com.surivalcoding.composerecipeapp.domain.model
 
 data class Procedure(
     val recipeId: Int,

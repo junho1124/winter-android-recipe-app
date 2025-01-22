@@ -1,4 +1,6 @@
-package com.surivalcoding.composerecipeapp.data_source.local
+package com.surivalcoding.composerecipeapp.data.data_source.local
+
+import org.koin.dsl.module
 
 class MockBookmarkDataSourceImpl : BookmarkDataSource {
     private val savedRecipes = mutableListOf<Int>(1, 2, 3)

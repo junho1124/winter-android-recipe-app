@@ -1,7 +1,7 @@
-package com.surivalcoding.composerecipeapp.data_source.remote
+package com.surivalcoding.composerecipeapp.data.data_source.remote
 
-import com.surivalcoding.composerecipeapp.dto.RecipeDto
-import com.surivalcoding.composerecipeapp.dto.RecipeWrapperDto
+import com.surivalcoding.composerecipeapp.data.dto.RecipeDto
+import com.surivalcoding.composerecipeapp.data.dto.RecipeWrapperDto
 import com.surivalcoding.composerecipeapp.util.DefaultJson
 
 class MockRecipeDataSourceImpl : RecipeDataSource {

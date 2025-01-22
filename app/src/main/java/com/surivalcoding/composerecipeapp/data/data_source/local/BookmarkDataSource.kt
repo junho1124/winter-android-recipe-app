@@ -1,4 +1,4 @@
-package com.surivalcoding.composerecipeapp.data_source.local
+package com.surivalcoding.composerecipeapp.data.data_source.local
 
 interface BookmarkDataSource {
     fun isRecipeSaved(recipeId: Int): Boolean

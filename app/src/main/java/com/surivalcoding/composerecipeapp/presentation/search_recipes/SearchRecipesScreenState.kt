@@ -1,7 +1,7 @@
 package com.surivalcoding.composerecipeapp.presentation.search_recipes
 
-import com.surivalcoding.composerecipeapp.core.ViewState
-import com.surivalcoding.composerecipeapp.model.Recipe
+import com.surivalcoding.composerecipeapp.core.presentation.ViewStateable
+import com.surivalcoding.composerecipeapp.domain.model.Recipe
 
 data class SearchRecipesScreenState(
     val query: String = "",
@@ -9,7 +9,7 @@ data class SearchRecipesScreenState(
     val bookmarkRecipeIds: Set<Int> = emptySet(),
     val filteredRecipes: List<Recipe> = emptyList(),
     val isLoading: Boolean = true,
-) : ViewState() {
+) : ViewStateable() {
     companion object {
         fun initialState() = SearchRecipesScreenState()
     }
