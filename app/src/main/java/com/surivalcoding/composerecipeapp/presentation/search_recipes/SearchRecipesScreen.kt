@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
@@ -20,8 +21,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -120,22 +123,40 @@ fun SearchRecipesScreen(
                 style = AppTextStyles.smallTextRegular.copy(color = AppColors.gray3),
             )
         }
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            horizontalArrangement = Arrangement.spacedBy(15.dp),
-        ) {
-            items(if(state.query.isBlank()) {
-                state.recipes
-            } else {
-                state.filteredRecipes
-            }) { recipe ->
-                RecipeCard(
-                    recipe = recipe,
-                    onClick = { onRecipeClicked(recipe.id) },
-                    isBookmarked = state.bookmarkRecipeIds.contains(recipe.id),
-                    cardShape = RecipeShape.SQUARE,
-                )
+        if(state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Box(modifier = Modifier.size(40.dp)) {
+                    CircularProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(2.dp),
+                        color = AppColors.primary100
+                    )
+                }
+            }
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                horizontalArrangement = Arrangement.spacedBy(15.dp),
+            ) {
+                items(
+                    if (state.query.isBlank()) {
+                        state.recipes
+                    } else {
+                        state.filteredRecipes
+                    }
+                ) { recipe ->
+                    RecipeCard(
+                        recipe = recipe,
+                        onClick = { onRecipeClicked(recipe.id) },
+                        isBookmarked = state.bookmarkRecipeIds.contains(recipe.id),
+                        cardShape = RecipeShape.SQUARE,
+                    )
+                }
             }
         }
 
