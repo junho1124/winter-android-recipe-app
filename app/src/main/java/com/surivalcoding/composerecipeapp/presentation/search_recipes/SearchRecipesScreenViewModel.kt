@@ -1,91 +1,85 @@
 package com.surivalcoding.composerecipeapp.presentation.search_recipes
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.viewmodel.CreationExtras
-import com.surivalcoding.composerecipeapp.AppApplication
-import com.surivalcoding.composerecipeapp.core.ViewModelable
-import com.surivalcoding.composerecipeapp.repository.RecipeRepository
+import androidx.lifecycle.viewModelScope
 import com.surivalcoding.composerecipeapp.core.model.Result
+import com.surivalcoding.composerecipeapp.core.presentation.ViewModelable
+import com.surivalcoding.composerecipeapp.domain.use_case.recipe_use_case.BookmarkRecipeUseCase
+import com.surivalcoding.composerecipeapp.domain.use_case.recipe_use_case.BookmarkRecipeUseCaseParams
+import com.surivalcoding.composerecipeapp.domain.use_case.recipe_use_case.SearchRecipesUseCase
+import com.surivalcoding.composerecipeapp.domain.use_case.recipe_use_case.SearchRecipesUseCaseParams
+import com.surivalcoding.composerecipeapp.presentation.search_recipes.action.InitSearchRecipeScreenCommand
+import kotlinx.coroutines.launch
 
 class SearchRecipesScreenViewModel(
-    private val recipeRepository: RecipeRepository
-): ViewModelable<SearchRecipesScreenState>(
-    SearchRecipesScreenState.initialState()) {
+    private val initSearchRecipeScreenCommand: InitSearchRecipeScreenCommand,
+    private val searchRecipesUseCase: SearchRecipesUseCase,
+    private val bookmarkRecipeUseCase: BookmarkRecipeUseCase,
+) : ViewModelable<SearchRecipesScreenState, SearchRecipesScreenEvent>(
+    SearchRecipesScreenState.initialState()
+) {
 
     init {
-        val savedRecipesResult = recipeRepository.getSavedRecipes()
-        val recipesResult = recipeRepository.searchRecipes("")
-        when (recipesResult) {
-            is Result.Success -> {
-                updateState(state.value.copy(recipes = recipesResult.data, isLoading = false))
-            }
-            is Result.Error -> {
-                gotFailure(recipesResult.error)
-            }
-        }
-        when (savedRecipesResult) {
-            is Result.Success -> {
-                updateState(state.value.copy(bookmarkRecipeIds = savedRecipesResult.data.map { it.id }.toSet()))
-            }
-            is Result.Error -> {
-                gotFailure(savedRecipesResult.error)
-            }
+        viewModelScope.launch {
+            onEvent(SearchRecipesScreenEvent.InitSearchRecipes)
         }
     }
 
-    fun onQueryChanged(query: String) {
-        val result = recipeRepository.searchRecipes(query)
-        when (result) {
-            is Result.Success -> {
-                updateState(state.value.copy(filteredRecipes = result.data, query = query, isLoading = false))
-            }
-            is Result.Error -> {
-                gotFailure(result.error)
-            }
-        }
-    }
+    override fun onEvent(event: SearchRecipesScreenEvent) {
+        when (event) {
+            is SearchRecipesScreenEvent.BookmarkRecipe -> {
+                viewModelScope.launch {
+                    val result =
+                        bookmarkRecipeUseCase(BookmarkRecipeUseCaseParams(event.recipeId))
+                    when (result) {
+                        is Result.Success -> {
+                            updateState(
+                                state.value.copy(
+                                    bookmarkRecipeIds = state.value.bookmarkRecipeIds.toMutableSet()
+                                        .apply {
+                                            if (contains(event.recipeId)) {
+                                                remove(event.recipeId)
+                                            } else {
+                                                add(event.recipeId)
+                                            }
+                                        })
+                            )
+                        }
 
-    fun onRecipeClicked(recipeId: Int) {
-        // TODO: Route to recipe detail screen
-        throw NotImplementedError("Not implemented yet")
-    }
-
-    fun onBookmark(recipeId: Int) {
-        val result = recipeRepository.bookmarkRecipe(recipeId)
-        when (result) {
-            is Result.Success -> {
-                updateState(state.value.copy(bookmarkRecipeIds = state.value.bookmarkRecipeIds.toMutableSet().apply {
-                    if (contains(recipeId)) {
-                        remove(recipeId)
-                    } else {
-                        add(recipeId)
+                        is Result.Error -> {
+                            gotFailure(result.error)
+                        }
                     }
-                }))
-            }
-            is Result.Error -> {
-                gotFailure(result.error)
-            }
-        }
-    }
-
-
-
-    companion object {
-            val Factory: ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(
-                    modelClass: Class<T>,
-                    extras: CreationExtras
-                ): T {
-                    val application = checkNotNull(extras[APPLICATION_KEY])
-
-                    return SearchRecipesScreenViewModel(
-                        (application as AppApplication).recipeRepository,
-                    ) as T
                 }
             }
+
+            is SearchRecipesScreenEvent.NavigateToRecipeDetail -> TODO()
+            is SearchRecipesScreenEvent.SearchRecipes -> {
+                viewModelScope.launch {
+                    val result =
+                        searchRecipesUseCase(SearchRecipesUseCaseParams(event.query))
+                    when (result) {
+                        is Result.Success -> {
+                            updateState(
+                                state.value.copy(
+                                    filteredRecipes = result.data,
+                                    query = event.query,
+                                    isLoading = false
+                                )
+                            )
+                        }
+
+                        is Result.Error -> {
+                            gotFailure(result.error)
+                        }
+                    }
+                }
+            }
+
+            is SearchRecipesScreenEvent.InitSearchRecipes -> initSearchRecipeScreenCommand.execute(
+                event,
+                this
+            )
         }
+    }
 
 }
